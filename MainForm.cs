@@ -27,21 +27,23 @@ public partial class MainForm : Form
     private void InitializeComponent()
     {
         this.Text = "Whack-a-Mole Game";
-        this.Size = new System.Drawing.Size(600, 750);
+        this.Size = new System.Drawing.Size(700, 850);
         this.StartPosition = FormStartPosition.CenterScreen;
         this.FormBorderStyle = FormBorderStyle.FixedSingle;
         this.MaximizeBox = false;
-        this.BackColor = System.Drawing.Color.LightGreen;
+        this.BackColor = System.Drawing.Color.White;
+        this.Font = new System.Drawing.Font("Segoe UI", 10);
 
         // Title Label
         Label titleLabel = new()
         {
-            Text = "WHACK-A-MOLE",
-            Font = new System.Drawing.Font("Arial", 24, System.Drawing.FontStyle.Bold),
-            ForeColor = System.Drawing.Color.DarkGreen,
+            Text = "🎮 WHACK-A-MOLE 🎮",
+            Font = new System.Drawing.Font("Segoe UI", 28, System.Drawing.FontStyle.Bold),
+            ForeColor = System.Drawing.Color.FromArgb(30, 100, 180),
             Dock = DockStyle.Top,
-            Height = 50,
-            TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            Height = 70,
+            TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
+            BackColor = System.Drawing.Color.FromArgb(230, 244, 255)
         };
         this.Controls.Add(titleLabel);
 
@@ -49,8 +51,9 @@ public partial class MainForm : Form
         Panel infoPanel = new()
         {
             Dock = DockStyle.Top,
-            Height = 80,
-            BackColor = System.Drawing.Color.White
+            Height = 100,
+            BackColor = System.Drawing.Color.FromArgb(245, 250, 255),
+            Padding = new Padding(15)
         };
         this.Controls.Add(infoPanel);
 
@@ -58,11 +61,11 @@ public partial class MainForm : Form
         Label scoreLabel = new()
         {
             Name = "scoreLabel",
-            Text = "Score: 0",
-            Font = new System.Drawing.Font("Arial", 16, System.Drawing.FontStyle.Bold),
-            ForeColor = System.Drawing.Color.Blue,
+            Text = "⭐ Score: 0",
+            Font = new System.Drawing.Font("Segoe UI", 18, System.Drawing.FontStyle.Bold),
+            ForeColor = System.Drawing.Color.FromArgb(30, 100, 180),
             AutoSize = false,
-            Bounds = new System.Drawing.Rectangle(20, 10, 250, 30),
+            Bounds = new System.Drawing.Rectangle(15, 15, 250, 35),
             TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         };
         infoPanel.Controls.Add(scoreLabel);
@@ -71,11 +74,11 @@ public partial class MainForm : Form
         Label timerLabel = new()
         {
             Name = "timerLabel",
-            Text = "Time: 30s",
-            Font = new System.Drawing.Font("Arial", 16, System.Drawing.FontStyle.Bold),
-            ForeColor = System.Drawing.Color.Red,
+            Text = "⏱️ Time: 30s",
+            Font = new System.Drawing.Font("Segoe UI", 18, System.Drawing.FontStyle.Bold),
+            ForeColor = System.Drawing.Color.FromArgb(200, 50, 50),
             AutoSize = false,
-            Bounds = new System.Drawing.Rectangle(300, 10, 250, 30),
+            Bounds = new System.Drawing.Rectangle(350, 15, 250, 35),
             TextAlign = System.Drawing.ContentAlignment.MiddleRight
         };
         infoPanel.Controls.Add(timerLabel);
@@ -84,11 +87,11 @@ public partial class MainForm : Form
         Label statusLabel = new()
         {
             Name = "statusLabel",
-            Text = "Ready to start! Click 'Start Game' button.",
-            Font = new System.Drawing.Font("Arial", 10),
-            ForeColor = System.Drawing.Color.DarkGreen,
+            Text = "Ready to start! Click 'START GAME' button.",
+            Font = new System.Drawing.Font("Segoe UI", 11),
+            ForeColor = System.Drawing.Color.FromArgb(80, 120, 160),
             AutoSize = false,
-            Bounds = new System.Drawing.Rectangle(20, 45, 500, 30),
+            Bounds = new System.Drawing.Rectangle(15, 55, 650, 30),
             TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         };
         infoPanel.Controls.Add(statusLabel);
@@ -97,15 +100,15 @@ public partial class MainForm : Form
         Panel boardPanel = new()
         {
             Dock = DockStyle.Top,
-            Height = 400,
-            Padding = new Padding(20),
-            BackColor = System.Drawing.Color.LightGreen
+            Height = 450,
+            Padding = new Padding(25),
+            BackColor = System.Drawing.Color.White
         };
         this.Controls.Add(boardPanel);
 
         // Create grid buttons
         gridButtons = new Button[GridSize, GridSize];
-        int buttonSize = (boardPanel.Width - 40 - (GridSize - 1) * 10) / GridSize;
+        int buttonSize = (boardPanel.Width - 50 - (GridSize - 1) * 15) / GridSize;
 
         for (int row = 0; row < GridSize; row++)
         {
@@ -118,17 +121,21 @@ public partial class MainForm : Form
                 {
                     Width = buttonSize,
                     Height = buttonSize,
-                    Left = 20 + col * (buttonSize + 10),
-                    Top = 20 + row * (buttonSize + 10),
-                    BackColor = System.Drawing.Color.Gray,
+                    Left = 25 + col * (buttonSize + 15),
+                    Top = 25 + row * (buttonSize + 15),
+                    BackColor = System.Drawing.Color.FromArgb(200, 230, 255),
                     FlatStyle = FlatStyle.Flat,
                     Cursor = Cursors.Hand,
+                    Font = new System.Drawing.Font("Segoe UI", 12, System.Drawing.FontStyle.Bold),
+                    ForeColor = System.Drawing.Color.FromArgb(30, 100, 180),
                     Tag = false // false = no mole, true = mole present
                 };
 
                 btn.Click += (s, e) => Button_Click(r, c);
                 btn.FlatAppearance.BorderSize = 2;
-                btn.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
+                btn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(100, 180, 255);
+                btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(170, 220, 255);
+                btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(100, 180, 255);
 
                 boardPanel.Controls.Add(btn);
                 gridButtons[row, col] = btn;
@@ -139,9 +146,9 @@ public partial class MainForm : Form
         Panel buttonPanel = new()
         {
             Dock = DockStyle.Bottom,
-            Height = 60,
-            BackColor = System.Drawing.Color.White,
-            Padding = new Padding(10)
+            Height = 80,
+            BackColor = System.Drawing.Color.FromArgb(240, 248, 255),
+            Padding = new Padding(15)
         };
         this.Controls.Add(buttonPanel);
 
@@ -149,16 +156,19 @@ public partial class MainForm : Form
         Button startButton = new()
         {
             Name = "startButton",
-            Text = "START GAME",
-            Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold),
-            Width = 120,
-            Height = 40,
-            Left = 20,
-            Top = 10,
-            BackColor = System.Drawing.Color.Green,
+            Text = "▶ START GAME",
+            Font = new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Bold),
+            Width = 140,
+            Height = 45,
+            Left = 15,
+            Top = 15,
+            BackColor = System.Drawing.Color.FromArgb(52, 152, 219),
             ForeColor = System.Drawing.Color.White,
-            Cursor = Cursors.Hand
+            Cursor = Cursors.Hand,
+            FlatStyle = FlatStyle.Flat
         };
+        startButton.FlatAppearance.BorderSize = 0;
+        startButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(41, 128, 185);
         startButton.Click += StartButton_Click;
         buttonPanel.Controls.Add(startButton);
 
@@ -166,16 +176,19 @@ public partial class MainForm : Form
         Button resetButton = new()
         {
             Name = "resetButton",
-            Text = "RESET",
-            Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold),
-            Width = 120,
-            Height = 40,
-            Left = 150,
-            Top = 10,
-            BackColor = System.Drawing.Color.Orange,
+            Text = "🔄 RESET",
+            Font = new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Bold),
+            Width = 140,
+            Height = 45,
+            Left = 170,
+            Top = 15,
+            BackColor = System.Drawing.Color.FromArgb(155, 89, 182),
             ForeColor = System.Drawing.Color.White,
-            Cursor = Cursors.Hand
+            Cursor = Cursors.Hand,
+            FlatStyle = FlatStyle.Flat
         };
+        resetButton.FlatAppearance.BorderSize = 0;
+        resetButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(142, 68, 173);
         resetButton.Click += ResetButton_Click;
         buttonPanel.Controls.Add(resetButton);
 
@@ -183,16 +196,19 @@ public partial class MainForm : Form
         Button exitButton = new()
         {
             Name = "exitButton",
-            Text = "EXIT",
-            Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold),
-            Width = 120,
-            Height = 40,
-            Left = 280,
-            Top = 10,
-            BackColor = System.Drawing.Color.Red,
+            Text = "✕ EXIT",
+            Font = new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Bold),
+            Width = 140,
+            Height = 45,
+            Left = 325,
+            Top = 15,
+            BackColor = System.Drawing.Color.FromArgb(192, 57, 43),
             ForeColor = System.Drawing.Color.White,
-            Cursor = Cursors.Hand
+            Cursor = Cursors.Hand,
+            FlatStyle = FlatStyle.Flat
         };
+        exitButton.FlatAppearance.BorderSize = 0;
+        exitButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(169, 50, 38);
         exitButton.Click += (s, e) => this.Close();
         buttonPanel.Controls.Add(exitButton);
     }
@@ -232,8 +248,9 @@ public partial class MainForm : Form
                 for (int col = 0; col < GridSize; col++)
                 {
                     gridButtons[row, col].Tag = false;
-                    gridButtons[row, col].BackColor = System.Drawing.Color.Gray;
+                    gridButtons[row, col].BackColor = System.Drawing.Color.FromArgb(200, 230, 255);
                     gridButtons[row, col].Text = "";
+                    gridButtons[row, col].ForeColor = System.Drawing.Color.FromArgb(30, 100, 180);
                 }
             }
 
@@ -260,8 +277,9 @@ public partial class MainForm : Form
             for (int col = 0; col < GridSize; col++)
             {
                 gridButtons[row, col].Tag = false;
-                gridButtons[row, col].BackColor = System.Drawing.Color.Gray;
+                gridButtons[row, col].BackColor = System.Drawing.Color.FromArgb(200, 230, 255);
                 gridButtons[row, col].Text = "";
+                gridButtons[row, col].ForeColor = System.Drawing.Color.FromArgb(30, 100, 180);
             }
         }
 
@@ -289,8 +307,9 @@ public partial class MainForm : Form
                 for (int col = 0; col < GridSize; col++)
                 {
                     gridButtons[row, col].Tag = false;
-                    gridButtons[row, col].BackColor = System.Drawing.Color.Gray;
+                    gridButtons[row, col].BackColor = System.Drawing.Color.FromArgb(200, 230, 255);
                     gridButtons[row, col].Text = "";
+                    gridButtons[row, col].ForeColor = System.Drawing.Color.FromArgb(30, 100, 180);
                 }
             }
 
@@ -298,9 +317,10 @@ public partial class MainForm : Form
             int randomRow = random.Next(GridSize);
             int randomCol = random.Next(GridSize);
             gridButtons[randomRow, randomCol].Tag = true;
-            gridButtons[randomRow, randomCol].BackColor = System.Drawing.Color.Gold;
+            gridButtons[randomRow, randomCol].BackColor = System.Drawing.Color.FromArgb(255, 193, 7);
             gridButtons[randomRow, randomCol].Text = "🏆";
-            gridButtons[randomRow, randomCol].Font = new System.Drawing.Font("Arial", 20);
+            gridButtons[randomRow, randomCol].Font = new System.Drawing.Font("Segoe UI", 24);
+            gridButtons[randomRow, randomCol].ForeColor = System.Drawing.Color.White;
         }
     }
 
@@ -310,23 +330,23 @@ public partial class MainForm : Form
         {
             score++;
             gridButtons[row, col].Tag = false;
-            gridButtons[row, col].BackColor = System.Drawing.Color.LightGreen;
+            gridButtons[row, col].BackColor = System.Drawing.Color.FromArgb(76, 175, 80);
             gridButtons[row, col].Text = "✓";
-            gridButtons[row, col].Font = new System.Drawing.Font("Arial", 16, System.Drawing.FontStyle.Bold);
-            gridButtons[row, col].ForeColor = System.Drawing.Color.Green;
+            gridButtons[row, col].Font = new System.Drawing.Font("Segoe UI", 20, System.Drawing.FontStyle.Bold);
+            gridButtons[row, col].ForeColor = System.Drawing.Color.White;
 
             UpdateUI();
 
             // Reset button appearance after hit
             System.Windows.Forms.Timer hitTimer = new()
             {
-                Interval = 200
+                Interval = 300
             };
             hitTimer.Tick += (s, e) =>
             {
-                gridButtons[row, col].BackColor = System.Drawing.Color.Gray;
+                gridButtons[row, col].BackColor = System.Drawing.Color.FromArgb(200, 230, 255);
                 gridButtons[row, col].Text = "";
-                gridButtons[row, col].ForeColor = System.Drawing.Color.Black;
+                gridButtons[row, col].ForeColor = System.Drawing.Color.FromArgb(30, 100, 180);
                 hitTimer.Stop();
                 hitTimer.Dispose();
             };
@@ -346,15 +366,16 @@ public partial class MainForm : Form
             for (int col = 0; col < GridSize; col++)
             {
                 gridButtons[row, col].Tag = false;
-                gridButtons[row, col].BackColor = System.Drawing.Color.Gray;
+                gridButtons[row, col].BackColor = System.Drawing.Color.FromArgb(200, 230, 255);
                 gridButtons[row, col].Text = "";
+                gridButtons[row, col].ForeColor = System.Drawing.Color.FromArgb(30, 100, 180);
             }
         }
 
         UpdateUI();
 
         MessageBox.Show(
-            $"Game Over!\n\nFinal Score: {score}",
+            $"🎉 Game Over! 🎉\n\nFinal Score: {score} 🌟",
             "Game Results",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information

@@ -1,0 +1,20 @@
+{
+  "servers": {
+    "github": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\Users\\RoyBarnes\\github-mcp-server\\server.js"],
+      "env": {
+        "GITHUB_TOKEN": "${input:github_token}"
+      },
+      "disabled": false
+    }
+  },
+  "inputVariables": {
+    "github_token": {
+      "description": "GitHub Personal Access Token for OAuth authentication with GitHub API",
+      "default": "",
+      "password": true
+    }
+  }
+}
